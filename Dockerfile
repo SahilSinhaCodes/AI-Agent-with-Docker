@@ -3,6 +3,9 @@
 
 FROM python:latest
 
+WORKDIR /app
+
+RUN echo "hello" > index.html
 #docker build -f .\Dockerfile -t pyapp .
 #docker run -it pyapp
 
