@@ -1,12 +1,11 @@
 services: # docker compose expects this
     app: #custom key name
-        image: python:latest
+#        image: python:latest
+        build:
+            context:  .
+
+            dockerfile: Dockerfile
         ports:
             -   8000:8000
             -   3000:8000
-        command: python -m http.server 8000
-    app2: #custom key name
-        image: python:latest
-        ports:
-            -   8001:8000
         command: python -m http.server 8000
