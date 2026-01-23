@@ -1,10 +1,9 @@
 services: # docker compose expects this
-    app: #custom key name
+    static_html: #custom key name
 #        image: python:latest
         build:
-            context:  .
-
-            dockerfile: Dockerfile
+            context:  ./static_html
+            dockerfile: static.Dockerfile
         ports:
             -   8000:8000
             -   3000:8000

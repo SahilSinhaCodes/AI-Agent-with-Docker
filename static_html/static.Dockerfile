@@ -14,7 +14,7 @@ WORKDIR /app
 
 # same destination is /app
 # COPY ./static_html /app
-COPY ./static_html .
+COPY ./src .
 
 #docker build -f Dockerfile -t sahilusesdocker/ai-py-app-test:latest .
 #docker push sahilusesdocker/ai-py-app-test:latest
