@@ -16,6 +16,7 @@ services: # dockers compose expects
           path: backend/Dockerfile
         - action: restart
           path: backend/src/
+          # target: /app
   static_html: # custom key name
     # image: python:3.13.4-slim-bullseye
     build:
