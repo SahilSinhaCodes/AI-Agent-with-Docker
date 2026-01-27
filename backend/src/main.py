@@ -1,7 +1,17 @@
 import os
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
-app = FastAPI()
+from api.db import init_db
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # before app startup
+    init_db()
+    yield
+    # after app startup
+
+app = FastAPI(lifespan=lifespan)
 
 MY_PROJECT = os.environ.get("MY_PROJECT") or "This is my project"
 API_KEY = os.environ.get("API_KEY")
@@ -10,4 +20,9 @@ if not API_KEY:
 
 @app.get("/")
 def read_index():
-    return {"hello": "world!", "project_name": MY_PROJECT}
+    return {"hello": "worlded!", "project_name": MY_PROJECT}
+
+
+# @app.get("/healthz")
+# def heath_check():
+#     return {"status": "ok"}
