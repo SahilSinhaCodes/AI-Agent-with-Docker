@@ -2,6 +2,7 @@ FROM python:latest
 
 # Create python virtual environment
 # isolate our python app and installs from system-level python
+RUN apt-get update && apt-get install -y curl
 RUN python -m venv /opt/venv/
 ENV PATH=/opt/venv/bin:$PATH
 

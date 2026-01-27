@@ -1,6 +1,6 @@
 from sqlmodel import SQLModel, Field
 
-class ChatMEssagePayLoad(SQLModel):
+class ChatMessagePayload(SQLModel):
     # pydantic model
     # validation
     message:str
