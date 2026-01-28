@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends
 from sqlmodel import Session,select
-
+from typing import List
 from api.db import get_session
-from .models import ChatMessagePayload, ChatMessage
+from .models import ChatMessagePayload, ChatMessage, ChatMessageListItem
 
 router = APIRouter()
 
@@ -11,14 +11,14 @@ router = APIRouter()
 def chat_health():
     return {"status": "ok"}
 
-@router.get("/recent/")
+@router.get("/recent/",response_model=List[ChatMessageListItem])
 def chat_list_messages(session: Session = Depends(get_session)):
     query = select(ChatMessage) # sql -> query
     results = session.exec(query).fetchall()[:10]
     return results
 
 # HTTP POST -> payload = {"message": "Hello world"} -> {"message": "hello world", "id": 1}
-@router.post("", response_model=ChatMessage)
+@router.post("", response_model=ChatMessageListItem)
 def chat_create_message(
         payload:ChatMessagePayload,
         session: Session = Depends(get_session)

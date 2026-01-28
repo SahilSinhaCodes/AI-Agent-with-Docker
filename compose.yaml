@@ -23,6 +23,11 @@ services: # dockers compose expects
           path: backend/Dockerfile
         - action: restart
           path: backend/src/
+          ignore:
+            - backend/src/**/__pycache__/
+            - backend/src/**/*.pyc
+            - backend/src/**/*.pyo
+            - backend/src/**/*.pyd
           # target: /app
   # DATABASE_URL=postgresql+psycopg://dbuser:db-password@db_service:5432/mydb
   db_service:
