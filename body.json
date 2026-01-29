@@ -1,0 +1,9 @@
+{
+    "model": "ai/smollm2:latest",
+    "messages": [
+        {
+            "role": "user",
+            "content": "Write about the fall of the Roman Empire in ~150 words."
+        }
+    ]
+}
