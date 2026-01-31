@@ -44,4 +44,4 @@ A string of emails separated by a line "----"
         for k, v in data.items():
             msg += f"{k}:\t{v}"
         cleaned.append(msg)
-    return "\n-----\n".join(cleaned)
+    return "\n-----\n".join(cleaned)[:500]
