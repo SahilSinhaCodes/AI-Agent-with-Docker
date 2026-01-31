@@ -21,7 +21,7 @@ Arguments:
 
 
 @tool
-def get_unread_emails(hours_ago:int=48) -> str:
+def get_unread_emails(hours_ago:float=48) -> str:
     """
 Read all emails from my inbox within the last N hours
 
