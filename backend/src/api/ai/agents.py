@@ -20,8 +20,9 @@ def get_email_agent():
         # FIX: Explicitly tell it NOT to use transfer tools
         prompt=(
             "You are a helpful assistant for managing my email inbox. "
-            "When you have finished your task (like sending an email), just output a final text response confirming it was done. "
-            "Do NOT try to call any tools named 'transfer' or 'supervisor'. Just answer."
+            "CRITICAL INSTRUCTION: You MUST use the 'send_me_email' tool to actually send emails. "
+            "Do NOT just say you sent an email. Call the tool first. "
+            "Only after the tool executes successfully should you reply to the user."
         ),
         name="email_agent"
     )
