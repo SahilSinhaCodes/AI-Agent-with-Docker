@@ -1,7 +1,6 @@
 from langgraph.prebuilt import create_react_agent
 from langgraph_supervisor import create_supervisor
 from api.ai.llms import get_openai_llm
-
 from api.ai.tools import (
     send_me_email,
     get_unread_emails,
@@ -13,13 +12,17 @@ EMAIL_TOOLS_LIST = [
     get_unread_emails
 ]
 
-
 def get_email_agent():
     model = get_openai_llm()
     agent = create_react_agent(
         model=model,
         tools=EMAIL_TOOLS_LIST,
-        prompt="You are a helpful assistant for managing my email inbox for generating, sending, and reviewing emails.",
+        # FIX: Explicitly tell it NOT to use transfer tools
+        prompt=(
+            "You are a helpful assistant for managing my email inbox. "
+            "When you have finished your task (like sending an email), just output a final text response confirming it was done. "
+            "Do NOT try to call any tools named 'transfer' or 'supervisor'. Just answer."
+        ),
         name="email_agent"
     )
 
@@ -30,13 +33,18 @@ def get_research_agent():
     agent = create_react_agent(
         model=model,
         tools=[research_email],
-        prompt="You are a helpful research assistant for preparing email data",
+        # FIX: Strictly defined role + Anti-hallucination instruction
+        prompt=(
+            "You are a specialized email research assistant. "
+            "You do NOT have access to the internet. You MUST use the 'research_email' tool to generate content. "
+            "When you have the information, just output it as your final response. "
+            "Do NOT try to call any tools named 'transfer' or 'supervisor'."
+        ),
         name='research_agent'
     )
 
     return agent
-# supe = get_supervisor()
-# supe.invoke({"messages": [{"role": "user", "content": "Find out how to create a latte then email me the results."}]})
+
 def get_supervisor():
     llm = get_openai_llm()
     email_agent = get_email_agent()
@@ -44,10 +52,11 @@ def get_supervisor():
 
     supe = create_supervisor(
         agents=[email_agent, research_agent],
-        model = llm,
+        model=llm,
         prompt=(
-            "You manage a research assistant and a"
-            "email inbox manager assistant. Assign work to them."
+            "You manage a research assistant and an email inbox manager. "
+            "Assign work to them based on the user's request. "
+            "When the job is done, simply reply to the user."
         )
     ).compile()
     return supe

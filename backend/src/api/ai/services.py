@@ -10,8 +10,11 @@ def generate_email_message(query: str) -> EmailMessageSchema:
     messages = [
         (
             "system",
-            # explicitly list the REQUIRED keys here.
-            "You are a helpful assistant. You must output your response in valid JSON format with the keys: 'subject', 'contents', and 'invalid_request'. Do not use markdown.",
+            "You are a helpful assistant. You must output your response in valid JSON format with the keys: 'subject', 'contents', and 'invalid_request'.\n\n"
+            "CRITICAL RULES:\n"
+            "1. The 'contents' field MUST be a single, plain text string.\n"
+            "2. Do NOT use objects, lists, arrays, or bullet points inside 'contents'.\n"
+            "3. If you have steps or lists, format them as a plain text paragraph or use dashes in a string."
         ),
         ("human", query),
     ]

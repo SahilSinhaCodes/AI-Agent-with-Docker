@@ -13,7 +13,7 @@ Arguments:
 - query: str - Topic of research
     """
     response = generate_email_message(query)
-    msg = f"Subject {response.subject}:\nBody: {response.content}"
+    msg = f"Subject {response.subject}:\nBody: {response.contents}"
     return msg
 
 @tool
